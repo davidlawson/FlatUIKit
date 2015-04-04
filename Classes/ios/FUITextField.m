@@ -14,6 +14,16 @@
 	UIImage* _flatHighlightedBackgroundImage;
 }
 
+- (id)initWithCoder:(NSCoder *)aDecoder
+{
+    if (self = [super initWithCoder:aDecoder])
+    {
+        _roundedCorners = UIRectCornerAllCorners;
+    }
+    
+    return self;
+}
+
 - (void)setTextFieldColor:(UIColor *)textFieldColor {
 	_textFieldColor = textFieldColor;
 	[self configureTextField];
@@ -34,6 +44,12 @@
 	[self configureTextField];
 }
 
+- (void)setRoundedCorners:(UIRectCorner)roundedCorners
+{
+    _roundedCorners = roundedCorners;
+    [self configureTextField];
+}
+
 - (void)setTextColor:(UIColor *)textColor {
 	[super setTextColor:textColor];
 	
@@ -44,8 +60,8 @@
 }
 
 - (void)configureTextField {
-	_flatBackgroundImage = [self textFieldImageWithColor:_textFieldColor borderColor:_borderColor borderWidth:0 cornerRadius:_cornerRadius];
-	_flatHighlightedBackgroundImage = [self textFieldImageWithColor:_textFieldColor borderColor:_borderColor borderWidth:_borderWidth cornerRadius:_cornerRadius];
+	_flatBackgroundImage = [self textFieldImageWithColor:_textFieldColor borderColor:_borderColor borderWidth:_borderWidth cornerRadius:_cornerRadius];
+	_flatHighlightedBackgroundImage = [self textFieldImageWithColor:_textFieldColor borderColor:_highlightedBorderColor borderWidth:_borderWidth cornerRadius:_cornerRadius];
 	
 	[self setBackground:_flatBackgroundImage];
 }
@@ -53,8 +69,8 @@
 // A helper method to draw a simple rounded rectangle image that can be used as background
 - (UIImage*)textFieldImageWithColor:(UIColor*)color borderColor:(UIColor*)borderColor
 						borderWidth:(CGFloat)borderWidth cornerRadius:(CGFloat)cornerRadius {
-	CGRect rect = CGRectMake(0, 0, 44, 44);
-	UIBezierPath* bezierPath = [UIBezierPath bezierPathWithRoundedRect:CGRectInset(rect, borderWidth, borderWidth) cornerRadius:cornerRadius];
+	CGRect rect = CGRectMake(0, 0, self.bounds.size.height, self.bounds.size.height);
+	UIBezierPath* bezierPath = [UIBezierPath bezierPathWithRoundedRect:CGRectInset(rect, borderWidth/2, borderWidth/2) byRoundingCorners:_roundedCorners cornerRadii:CGSizeMake(cornerRadius, cornerRadius)];
 	
 	UIGraphicsBeginImageContextWithOptions(rect.size, NO, 0.0f);
 	CGContextRef ctx = UIGraphicsGetCurrentContext();

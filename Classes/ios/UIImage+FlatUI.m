@@ -126,9 +126,9 @@ static CGFloat edgeSizeFromCornerRadius(CGFloat cornerRadius) {
     UIGraphicsEndImageContext();
 	
 	if ([image respondsToSelector:@selector(resizableImageWithCapInsets:resizingMode:)]) {
-		return [image resizableImageWithCapInsets:UIEdgeInsetsMake(cornerRadius, 15, cornerRadius, cornerRadius) resizingMode:UIImageResizingModeStretch];
+		return [image resizableImageWithCapInsets:UIEdgeInsetsMake(cornerRadius, 15, cornerRadius, cornerRadius + 4) resizingMode:UIImageResizingModeStretch];
 	}else{
-		return [image resizableImageWithCapInsets:UIEdgeInsetsMake(cornerRadius, 15, cornerRadius, cornerRadius)];
+		return [image resizableImageWithCapInsets:UIEdgeInsetsMake(cornerRadius, 15, cornerRadius, cornerRadius + 4)];
 	}
 }
 
